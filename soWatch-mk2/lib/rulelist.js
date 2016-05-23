@@ -52,13 +52,6 @@ exports.website = [
     "http://www.pptv.com/",
     [true, [["pptv_player", "player4player2.swf", true, null, "http://player.pplive.cn/ikan/*/player4player2.swf*"]]],
     [true, [["pptv_filter", null, null, false, "http://de.as.pptv.com/ikandelivery/vast/*draft/*"]]]
-  ],
-  [
-    "qq",
-    0,
-    "http://v.qq.com/",
-    [false, []],
-    [true, [["qq_filter", null, null, false, ["http://*/vmind.qqvideo.tc.qq.com/*.mp4?vkey=*", "http://*.gtimg.com/qqlive/*"]]]]
   ]
 ];
 exports.wrapper = [
