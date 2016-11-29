@@ -56,7 +56,7 @@ var HttpRequest = {
   frontEnd: function (subject) {
     var httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
     HttpRequest.filter(httpChannel);
-    if (!swf.test(httpChannel.URI) && !xml.test(httpChannel.URI)) return;
+    if (!isFlash.test(httpChannel.URI)) return;
     HttpRequest.player(subject, httpChannel);
   },
   filter: function (httpChannel) {
