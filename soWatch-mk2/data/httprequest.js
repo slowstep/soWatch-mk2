@@ -6,8 +6,8 @@ var Services = require("../lib/services.js");
 var {Cc, Ci, Cr, Cu} = require("chrome");
 var {NetUtil} = Cu.import("resource://gre/modules/NetUtil.jsm", {});
 
-var swf = Pattern.fromString("http://*/*.swf*");
-var xml = Pattern.fromString("http://*/*.xml*");
+var swf = Pattern.encode("http://*/*.swf*");
+var xml = Pattern.encode("http://*/*.xml*");
 
 function getFilter(rule, httpChannel) {
   if (rule["secured"]) {
@@ -58,13 +58,13 @@ var HttpRequest = {
   frontEnd: function (subject) {
     var httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
     HttpRequest.filter(httpChannel);
-    if (!swf.matches(httpChannel.URI) && !xml.matches(httpChannel.URI)) return;
+    if (!swf.test(httpChannel.URI) && !xml.test(httpChannel.URI)) return;
     HttpRequest.player(subject, httpChannel);
   },
   filter: function (httpChannel) {
     for (var i in Storage.filter) {
       var rule = Storage.filter[i];
-      if (rule["target"] && rule["target"].matches(httpChannel.URI)) {
+      if (rule["target"] && rule["target"].test(httpChannel.URI)) {
         if (i.includes("iqiyi")) {  // issue #7 细节补丁
           this.iqiyi ++;
           if (this.iqiyi != 2) {
@@ -78,7 +78,7 @@ var HttpRequest = {
   },
   player: function (subject, httpChannel) {
     for (var i in Storage.website) {
-      if (Storage.website[i].onSite.matches(httpChannel.URI)) {
+      if (Storage.website[i].onSite.test(httpChannel.URI)) {
         if (i == "iqiyi") { // issues #7 前置补丁
           this.iqiyi = 0;
         }
@@ -90,7 +90,7 @@ var HttpRequest = {
 
     for (var i in Storage.player) {
       var rule = Storage.player[i];
-      if (rule["target"] && rule["target"].matches(httpChannel.URI)) {
+      if (rule["target"] && rule["target"].test(httpChannel.URI)) {
         if (!rule["storageStream"] || !rule["count"]) {
           if (Storage.option["offline"].value) {
             getPlayer(rule.offline, rule, httpChannel);
