@@ -56,13 +56,13 @@ var HttpRequest = {
   frontEnd: function (subject) {
     var httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
     HttpRequest.filter(httpChannel);
-    if (!isFlash.test(httpChannel.URI)) return;
+    if (!isFlash.test(httpChannel.URI.spec)) return;
     HttpRequest.player(subject, httpChannel);
   },
   filter: function (httpChannel) {
     for (var i in Storage.filter) {
       var rule = Storage.filter[i];
-      if (rule["target"] && rule["target"].test(httpChannel.URI)) {
+      if (rule["target"] && rule["target"].test(httpChannel.URI.spec)) {
         if (i.includes("iqiyi")) {  // issue #7 细节补丁
           statCounter ++;
           if (statCounter != 2) {
@@ -76,7 +76,7 @@ var HttpRequest = {
   },
   player: function (subject, httpChannel) {
     for (var i in Storage.website) {
-      if (Storage.website[i].onSite.test(httpChannel.URI)) {
+      if (Storage.website[i].onSite.test(httpChannel.URI.host)) {
         if (i == "iqiyi") { // issues #7 前置补丁
           statCounter = 0;
         }
@@ -88,7 +88,7 @@ var HttpRequest = {
 
     for (var i in Storage.player) {
       var rule = Storage.player[i];
-      if (rule["target"] && rule["target"].test(httpChannel.URI)) {
+      if (rule["target"] && rule["target"].test(httpChannel.URI.spec)) {
         if (!rule["storageStream"] || !rule["count"]) {
           if (Storage.option["offline"].value) {
             getPlayer(rule.offline, rule, httpChannel);
