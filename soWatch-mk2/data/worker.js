@@ -14,13 +14,13 @@ function getRule(rulelist) {
       if (!remote) {
         Storage.player[name] = {
           offline: player,
-          pattern: Pattern.fromString(string)
+          pattern: Pattern.encode(string)
         };
       } else {
         Storage.player[name] = {
           offline: Storage.file.path + player,
           online: Storage.file.link + player,
-          pattern: Pattern.fromString(string)
+          pattern: Pattern.encode(string)
         };
       }
     }
@@ -28,7 +28,7 @@ function getRule(rulelist) {
     if (filter != undefined) {
       Storage.filter[name] = {
         secured: filter,
-        pattern: Pattern.fromString(string)
+        pattern: Pattern.encode(string)
       };
     }
   });
