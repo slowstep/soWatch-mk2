@@ -40,7 +40,7 @@ function readList() {
     var name = element[0], value = element[1], address = element[2], player = element[3], filter = element[4];
     Storage.website[name] = {
       prefs: {name: name, value: value},
-      onSite: Pattern.fromURL(address),
+      onSite: Pattern.encode(address),
       hasPlayer: player[0],
       player: player[1],
       hasFilter: filter[0],
