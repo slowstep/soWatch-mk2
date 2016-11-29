@@ -7,9 +7,8 @@ var Worker = require("./worker.js");
 var Locales = require("sdk/l10n").get;
 var {Cu} = require("chrome");
 var {CustomizableUI} = Cu.import("resource:///modules/CustomizableUI.jsm", {});
-
-var cssFile = Services.io.newURI(require("sdk/self").data.url("toolbar.css"), null, null);
 var iconShown = false;
+var cssFile = Services.io.newURI(require("sdk/self").data.url("toolbar.css"), null, null);
 
 function createButton(document) {
   var button = document.createElement("toolbarbutton");
@@ -122,7 +121,7 @@ function menuPopup(event) {
 
     for (var i in Storage.website) {
       var website = Storage.website[i];
-      if (!website["onSite"].test(event.target.ownerDocument.getElementById("content").currentURI) && !website.popup) {
+      if (!website["onSite"].test(event.target.ownerDocument.getElementById("content").currentURI.spec) && !website.popup) {
         event.target.querySelector("#sowatchmk2-separator-" + i).setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-player").setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("hidden", "true");
