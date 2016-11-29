@@ -4,7 +4,7 @@ var Storage = require("../lib/storage.js");
 var Services = require("../lib/services.js");
 var {Cc, Ci, Cr, Cu} = require("chrome");
 var {NetUtil} = Cu.import("resource://gre/modules/NetUtil.jsm", {});
-
+var statCounter = 0;
 var isFlash = /(\.swf|\.xml)/i;
 
 function getFilter(rule, httpChannel) {
@@ -64,8 +64,8 @@ var HttpRequest = {
       var rule = Storage.filter[i];
       if (rule["target"] && rule["target"].test(httpChannel.URI)) {
         if (i.includes("iqiyi")) {  // issue #7 细节补丁
-          this.iqiyi ++;
-          if (this.iqiyi != 2) {
+          statCounter ++;
+          if (statCounter != 2) {
             getFilter(rule, httpChannel);
           }
         } else {
@@ -78,7 +78,7 @@ var HttpRequest = {
     for (var i in Storage.website) {
       if (Storage.website[i].onSite.test(httpChannel.URI)) {
         if (i == "iqiyi") { // issues #7 前置补丁
-          this.iqiyi = 0;
+          statCounter = 0;
         }
         Storage.website[i].popup = true;
       } else {
