@@ -1,13 +1,11 @@
 "use strict";
 
 var Storage = require("../lib/storage.js");
-var Pattern = require("../lib/makepattern.js");
 var Services = require("../lib/services.js");
 var {Cc, Ci, Cr, Cu} = require("chrome");
 var {NetUtil} = Cu.import("resource://gre/modules/NetUtil.jsm", {});
 
-var swf = Pattern.encode("http://*/*.swf*");
-var xml = Pattern.encode("http://*/*.xml*");
+var isFlash = /(\.swf|\.xml)/i;
 
 function getFilter(rule, httpChannel) {
   if (rule["secured"]) {
