@@ -122,7 +122,7 @@ function menuPopup(event) {
 
     for (var i in Storage.website) {
       var website = Storage.website[i];
-      if (!website["onSite"].matches(event.target.ownerDocument.getElementById("content").currentURI) && !website.popup) {
+      if (!website["onSite"].test(event.target.ownerDocument.getElementById("content").currentURI) && !website.popup) {
         event.target.querySelector("#sowatchmk2-separator-" + i).setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-player").setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("hidden", "true");
