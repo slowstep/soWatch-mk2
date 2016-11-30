@@ -111,7 +111,6 @@ function menuClick(event) {
 }
 
 function menuPopup(event) {
-  var cURI = event.target.ownerDocument.getElementById("content").currentURI.host;
   if (event.target.id == "sowatchmk2-popup") {
     Storage.command.forEach(function (element, index, array) {
       var name = element[0], type = element[1];
@@ -133,7 +132,7 @@ function menuPopup(event) {
       } else if (website.value == 0) {
         event.target.querySelector("#sowatchmk2-" + i + "-none").setAttribute("checked", "true");
       }
-      if (!website["onSite"].test(cURI) && !website.popup) {
+      if (!website["onSite"].test(event.target.ownerDocument.getElementById("content").currentURI.spec) && !website.popup) {
         event.target.querySelector("#sowatchmk2-separator-" + i).setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-player").setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("hidden", "true");
