@@ -69,8 +69,12 @@ function createSubItem(document, popup) {
       item.setAttribute("id", "sowatchmk2-" + i + "-" + x);
       item.setAttribute("label", Locales(i + subMenuList[x]));
       item.setAttribute("type", "radio");
-      if (!Storage.website[i].hasPlayer && x == "player") item.setAttribute("disabled", "true");
-      if (!Storage.website[i].hasFilter && x == "filter") item.setAttribute("disabled", "true");
+      if (!Storage.website[i].hasPlayer && x == "player") {
+        item.setAttribute("disabled", "true");
+      }
+      if (!Storage.website[i].hasFilter && x == "filter") {
+        item.setAttribute("disabled", "true");
+      }
       popup.appendChild(item);
     }
   }
@@ -107,6 +111,7 @@ function menuClick(event) {
 }
 
 function menuPopup(event) {
+  var cURL = event.target.ownerDocument.getElementById("content").currentURI.host;
   if (event.target.id == "sowatchmk2-popup") {
     Storage.command.forEach(function (element, index, array) {
       var name = element[0], type = element[1];
@@ -121,7 +126,7 @@ function menuPopup(event) {
 
     for (var i in Storage.website) {
       var website = Storage.website[i];
-      if (!website["onSite"].test(event.target.ownerDocument.getElementById("content").currentURI.spec) && !website.popup) {
+      if (!website["onSite"].test(cURL) && !website.popup) {
         event.target.querySelector("#sowatchmk2-separator-" + i).setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-player").setAttribute("hidden", "true");
         event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("hidden", "true");
