@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/jc3213/soWatch-mk2/",
   "updateURL": "https://raw.githubusercontent.com/jc3213/Misc/master/Update/soWatch_mk2.rdf",
-  "updateLink": "https://github.com/jc3213/soWatch-mk2/releases/download/1.13.11/sowatch_mk2-1.13.11-fx.xpi",
+  "updateLink": "https://github.com/jc3213/soWatch-mk2/releases/download/1.13.1/sowatch_mk2-1.13.1-fx.xpi",
   "updateKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8NYE9n9t9hlOg8lttm15fJJ9lyd0sqNcmrCxg2J0fcznCXExKSr5wgGzXzqXMljEV/qHWJdkzqjz2I0WZ7z9PAXmO/aFYfrGHDLrsA+hVAd+35zaaQhK1NzA4t9q1YZc3drjdfQ7WEIPywevA8hbSPTTt28W6FiEVxhISbBkrIQIDAQAB",
   "license": "LGPL-3.0",
   "preferences": [
