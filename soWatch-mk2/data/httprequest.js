@@ -62,19 +62,27 @@ var HttpRequest = {
   filter: function (httpChannel) {
     for (var i in Storage.filter) {
       var rule = Storage.filter[i];
-      if (rule["target"] && rule["target"].test(httpChannel.URI.spec)) {
-        if (i.includes("iqiyi")) {  // issue #7 细节补丁
-          statCounter ++;
-          if (statCounter != 2) {
+      if (rule["target"] == null) continue;
+
+      rule["target"].forEach(function (element, index, array) {
+        var pattern = element;
+
+        if (pattern.test(httpChannel.URI.spec)) {
+          if (i.includes("iqiyi")) {  // issue #7 细节补丁
+            statCounter ++;
+            if (statCounter != 2) {
+              getFilter(rule, httpChannel);
+            }
+          } else {
             getFilter(rule, httpChannel);
           }
-        } else {
-          getFilter(rule, httpChannel);
         }
-      }
+      })
     }
   },
   player: function (subject, httpChannel) {
+    var offline = Storage.option["offline"].value;
+
     for (var i in Storage.website) {
       if (Storage.website[i].onSite.test(httpChannel.URI.host)) {
         if (i == "iqiyi") { // issues #7 前置补丁
@@ -88,20 +96,25 @@ var HttpRequest = {
 
     for (var i in Storage.player) {
       var rule = Storage.player[i];
-      if (rule["target"] && rule["target"].test(httpChannel.URI.spec)) {
-        if (!rule["storageStream"] || !rule["count"]) {
-          if (Storage.option["offline"].value) {
-            getPlayer(rule.offline, rule, httpChannel);
-          } else {
-            getPlayer(rule.online, rule, httpChannel);
+      if (rule["target"] == null) continue;
+
+      rule["target"].forEach(function (element, index, array) {
+        var pattern = element;
+
+        if (pattern.test(httpChannel.URI.spec)) {
+          if (!rule["storageStream"] || !rule["count"]) {
+            if (offline) {
+              getPlayer(rule.offline, rule, httpChannel);
+            } else {
+              getPlayer(rule.online, rule, httpChannel);
+            }
+            var newListener = new TrackingListener();
+            subject.QueryInterface(Ci.nsITraceableChannel);
+            newListener.originalListener = subject.setNewListener(newListener);
+            newListener.rule = rule;
           }
         }
-        var newListener = new TrackingListener();
-        subject.QueryInterface(Ci.nsITraceableChannel);
-        newListener.originalListener = subject.setNewListener(newListener);
-        newListener.rule = rule;
-        break;
-      }
+      })
     }
   }
 };
