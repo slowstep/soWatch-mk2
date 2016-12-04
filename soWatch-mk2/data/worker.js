@@ -51,7 +51,9 @@ exports.pendingOption = function () {
     var param = Storage.player[i].website, website;
     if (website = Storage.website[param]) {
       website.hasPlayer = true;
-      if (website.value != 1) {
+      if (website.value == 1) {
+        Storage.player[i].enabled = true;
+      } else {
         Storage.player[i].enabled = false;
       }
     }
@@ -61,7 +63,9 @@ exports.pendingOption = function () {
     var param = Storage.filter[x].website, website;
     if (website = Storage.website[param]) {
       website.hasFilter = true;
-      if (website.value != 2) {
+      if (website.value == 2) {
+        Storage.filter[x].enabled = true;
+      } else {
         Storage.filter[x].enabled = false;
       }
     }
