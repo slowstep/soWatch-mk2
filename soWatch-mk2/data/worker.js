@@ -13,7 +13,7 @@ function getRule(option, name, prefix) {
     if (type == "player") {
       var player = element[1], remote = element[2], string = element[3];
 
-      if (!remote) {
+      if (remote) {
         Storage.player[param] = {
           website: name,
           offline: player,
