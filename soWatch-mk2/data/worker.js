@@ -6,27 +6,32 @@ var FileIO = require("../lib/file-io.js");
 var Preference = require("../lib/pref-utils.js");
 var Synchronize = require("../lib/sync.js");
 
-function getRule(rulelist) {
-  rulelist.forEach(function (element, index, array) {
-    var name = element[0], player = element[1], remote = element[2], filter = element[3], string = element[4];
+function getRule(property, name, prefix) {
+  property.forEach(function (element, index, array) {
+    var type = element[0], param = prefix + index;
 
-    if (player != undefined) {
+    if (type == "player") {
+      var player = element[1], remote = element[2], string = element[3];
+
       if (!remote) {
-        Storage.player[name] = {
+        Storage.player[param] = {
+          website: name,
           offline: player,
           pattern: Pattern.encodeX(string)
         };
       } else {
-        Storage.player[name] = {
+        Storage.player[param] = {
+          website: name,
           offline: Storage.file.path + player,
           online: Storage.file.link + player,
           pattern: Pattern.encodeX(string)
         };
       }
-    }
+    } else if (type == "filter") {
+      var filter = element[1], string = element[2];
 
-    if (filter != undefined) {
-      Storage.filter[name] = {
+      Storage.filter[param] = {
+        website: name,
         secured: filter,
         pattern: Pattern.encodeX(string)
       };
@@ -34,44 +39,32 @@ function getRule(rulelist) {
   });
 }
 
-function setRule(state, type, rulelist) {
-  rulelist.forEach(function (element, index, array) {
-    var object = Storage[type][element[0]];
-    if (state == "on") {
-      object["target"] = object["pattern"];
-    } else if (state == "off") {
-      object["target"] = null;
-    }
-  });
-}
-
 exports.pendingOption = function () {
-  for (var i in Storage.website) {
-    Storage.website[i].value = Preference.getValue(Storage.website[i].prefs.name);
+  Object.keys(Storage.website).forEach(function (element, index, array) {
+    var website = Storage.website[element], param = index * 10;
 
-    if (Storage.website[i].hasPlayer) {
-      getRule(Storage.website[i].player);
-      if (Storage.website[i].value == 1) {
-        setRule("on", "player", Storage.website[i].player);
-      } else {
-        setRule("off", "player", Storage.website[i].player);
+    website.value = Preference.getValue(website.prefs.name);
+    getRule(website.property, element, param);
+  });
+
+  for (var i in Storage.player) {
+    var param = Storage.player[i].website, website;
+    if (website = Storage.website[param]) {
+      website.hasPlayer = true;
+      if (website.value != 1) {
+        Storage.player[i].enabled = false;
       }
-    } else {
-      if (Storage.website[i].value == 1) Preference.resetValue(Storage.website[i].prefs);
     }
+  }
 
-    if (Storage.website[i].hasFilter) {
-      getRule(Storage.website[i].filter);
-      if (Storage.website[i].value == 2) {
-        setRule("on", "filter", Storage.website[i].filter);
-      } else {
-        setRule("off", "filter", Storage.website[i].filter);
+  for (var x in Storage.filter) {
+    var param = Storage.filter[x].website, website;
+    if (website = Storage.website[param]) {
+      website.hasFilter = true;
+      if (website.value != 2) {
+        Storage.filter[x].enabled = false;
       }
-    } else {
-      if (Storage.website[i].value == 2) Preference.resetValue(Storage.website[i].prefs);
     }
-
-    if (Storage.website[i].value > 2) Preference.resetValue(Storage.website[i].prefs);
   }
 };
 exports.restore = function () {
