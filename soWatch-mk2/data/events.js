@@ -37,14 +37,11 @@ function readList() {
   });
 
   Rulelist.website.forEach(function (element, index, array) {
-    var name = element[0], value = element[1], address = element[2], player = element[3], filter = element[4];
+    var name = element[0], value = element[1], address = element[2], option = element[3];
     Storage.website[name] = {
       prefs: {name: name, value: value},
       onSite: Pattern.encode(address),
-      hasPlayer: player[0],
-      player: player[1],
-      hasFilter: filter[0],
-      filter: filter[1]
+      option: option
     };
   });
 }
