@@ -17,14 +17,14 @@ function getRule(option, name, prefix) {
         Storage.player[param] = {
           website: name,
           offline: player,
-          pattern: Pattern.encodeX(string)
+          pattern: Pattern.encode(string)
         };
       } else {
         Storage.player[param] = {
           website: name,
           offline: Storage.file.path + player,
           online: Storage.file.link + player,
-          pattern: Pattern.encodeX(string)
+          pattern: Pattern.encode(string)
         };
       }
     } else if (type == "filter") {
@@ -33,7 +33,7 @@ function getRule(option, name, prefix) {
       Storage.filter[param] = {
         website: name,
         secured: filter,
-        pattern: Pattern.encodeX(string)
+        pattern: Pattern.encode(string)
       };
     }
   });
