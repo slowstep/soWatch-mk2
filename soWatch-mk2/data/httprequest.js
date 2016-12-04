@@ -55,38 +55,18 @@ var HttpRequest = {
   },
   frontEnd: function (subject) {
     var httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
-
+    HttpRequest.filter(httpChannel);
+    if (!isFlash.test(httpChannel.URI.spec)) return;
+    HttpRequest.player(subject, httpChannel);
+  },
+  filter: function (httpChannel) {
     for (var i in Storage.filter) {
       var rule = Storage.filter[i];
-      if (rule["target"] == null) continue;
-      HttpRequest.filter(rule, httpChannel, i)
-    }
 
-    if (!isFlash.test(httpChannel.URI.spec)) return;
-	
-    for (var i in Storage.website) {
-      if (Storage.website[i].onSite.test(httpChannel.URI.host)) {
-        if (i == "iqiyi") { // issues #7 前置补丁
-          statCounter = 0;
-        }
-        Storage.website[i].popup = true;
-      } else {
-        Storage.website[i].popup = false;
-      }
-    }
+      if (!rule.enabled) continue;
 
-    for (var i in Storage.player) {
-      var rule = Storage.player[i];
-      if (rule["target"] == null) continue;
-      HttpRequest.player(rule, httpChannel, subject);
-    }
-  },
-  filter: function (rule, httpChannel, i) {
-    rule["target"].forEach(function (element, index, array) {
-      var pattern = element;
-
-      if (pattern.test(httpChannel.URI.spec)) {
-        if (i.includes("iqiyi")) {  // issue #7 细节补丁
+      if (rule.pattern.test(httpChannel.URI.spec)) {
+        if (rule.website == "iqiyi") {  // issue #7 细节补丁
           statCounter ++;
           if (statCounter != 2) {
             getFilter(rule, httpChannel);
@@ -95,28 +75,40 @@ var HttpRequest = {
           getFilter(rule, httpChannel);
         }
       }
-    })
+    }
   },
-  player: function (rule, httpChannel, subject) {
+  player: function (subject, httpChannel) {
     var offline = Storage.option["offline"].value;
 
-    rule["target"].forEach(function (element, index, array) {
-      var pattern = element;
+    for (var i in Storage.player) {
+      var rule = Storage.player[i], website = Storage.website[rule.website];
 
-      if (pattern.test(httpChannel.URI.spec)) {
+      if (website.onSite.test(httpChannel.URI.host)) {
+        if (i == "iqiyi") { // issues #7 前置补丁
+          statCounter = 0;
+        }
+        website.popup = true;
+      } else {
+        website.popup = false;
+      }
+
+      if (!rule.enabled) continue;
+
+      if (rule.pattern.test(httpChannel.URI.spec)) {
         if (!rule["storageStream"] || !rule["count"]) {
           if (offline) {
             getPlayer(rule.offline, rule, httpChannel);
           } else {
             getPlayer(rule.online, rule, httpChannel);
           }
-          var newListener = new TrackingListener();
-          subject.QueryInterface(Ci.nsITraceableChannel);
-          newListener.originalListener = subject.setNewListener(newListener);
-          newListener.rule = rule;
         }
+        var newListener = new TrackingListener();
+        subject.QueryInterface(Ci.nsITraceableChannel);
+        newListener.originalListener = subject.setNewListener(newListener);
+        newListener.rule = rule;
+        break;
       }
-    })
+    }
   }
 };
 
