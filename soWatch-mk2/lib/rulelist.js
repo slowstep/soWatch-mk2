@@ -16,8 +16,8 @@ exports.website = [
     0,
     "youku.com",
     [
-      ["player", "loader.swf", true, "http://static.youku.com/*/v/swf/loader*.swf*"],
-      ["player", "player.swf", true, "http://static.youku.com/*/v/swf/*player*.swf*"],
+      ["player", "loader.swf", false, "http://static.youku.com/*/v/swf/loader*.swf*"],
+      ["player", "player.swf", false, "http://static.youku.com/*/v/swf/*player*.swf*"],
       ["filter", true, "http://*.atm.youku.com/v*?vip=*"]
     ]
   ],
@@ -26,7 +26,7 @@ exports.website = [
     0,
     "tudou.com",
     [
-      ["player", "tudou.swf", true, "http://js.tudouui.com/bin/lingtong/PortalPlayer*.swf*"],
+      ["player", "tudou.swf", false, "http://js.tudouui.com/bin/lingtong/PortalPlayer*.swf*"],
       ["filter", false, "http://*.atm.youku.com/v*?vip=*"]
     ]
   ],
@@ -35,9 +35,9 @@ exports.website = [
     0,
     "iqiyi.com",
     [
-      ["player", "iqiyi5.swf", true, "http://www.iqiyi.com/common/flashplayer/*/MainPlayer*.swf*"],
-      ["player", "iqiyi5.swf", true, "http://www.iqiyi.com/common/flashplayer/*/*f98c2359.swf*"],
-      ["player", "iqiyi_out.swf", true, "http://www.iqiyi.com/common/flashplayer/*/EnjoyPlayer*.swf*"],
+      ["player", "iqiyi5.swf", false, "http://www.iqiyi.com/common/flashplayer/*/MainPlayer*.swf*"],
+      ["player", "iqiyi5.swf", false, "http://www.iqiyi.com/common/flashplayer/*/*f98c2359.swf*"],
+      ["player", "iqiyi_out.swf", false, "http://www.iqiyi.com/common/flashplayer/*/EnjoyPlayer*.swf*"],
       ["filter", false, "http://*/videos/other/*/*/*/*.f4v*"],
       ["filter", false, "http://data.video.qiyi.com/videos/other/*/*/*/*.hml*"]
     ]
@@ -47,12 +47,13 @@ exports.website = [
     0,
     "le.com",
     [
-      ["player", "letv.swf", true, "http://player.letvcdn.com/*/*/*/*/*/*/newplayer/LetvPlayer.swf*"],
-      ["player", "letv.swf", true, "http://player.letvcdn.com/*/*/*/*/newplayer/SDKLetvPlayer.swf*"],
-      ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", false, "http://www.le.com/cmsdata/playerapi/pccs_PlayerSDK*.xml*"],
-      ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", false, "http://www.le.com/cmsdata/playerapi/pccs_LiveSDK*.xml*"],
-      ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", false, "http://www.le.com/cmsdata/playerapi/pccs_main*.xml"],
-      ["filter", false, ["http://*/*/*/*/letv-gug/*/ver_*-avc-*-aac-*.mp4*", "http://*.letvimg.com/lc*_gugwl/*/*/*/*/*", "http://*.letvimg.com/lc*_diany/*/*/*/*/*"]]
+      ["player", "letv.swf", false, "http://player.letvcdn.com/*/*/*/*/*/*/newplayer/LetvPlayer.swf*"],
+      ["player", "letv.swf", false, "http://player.letvcdn.com/*/*/*/*/newplayer/SDKLetvPlayer.swf*"],
+      ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", true, "http://www.le.com/cmsdata/playerapi/pccs_PlayerSDK*.xml*"],
+      ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", true, "http://www.le.com/cmsdata/playerapi/pccs_LiveSDK*.xml*"],
+      ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", true, "http://www.le.com/cmsdata/playerapi/pccs_main*.xml"],
+      ["filter", false, "http://*/*/*/*/letv-gug/*/ver_*-avc-*-aac-*.mp4*"],
+      ["filter", false, "http://*.letvimg.com/lc*_gugwl/*/*/*/*/*", "http://*.letvimg.com/lc*_diany/*/*/*/*/*"]
     ]
   ],
   [
@@ -60,8 +61,8 @@ exports.website = [
     0,
     "sohu.com",
     [
-      ["player", "sohu_live.swf", true, "http://tv.sohu.com/upload/swf/*/Main.swf*"],
-      ["filter", true, "http://v.aty.sohu.com/v*"]
+      ["player", "sohu_live.swf", false, "http://tv.sohu.com/upload/swf/*/Main.swf*"],
+      ["filter", false, "http://v.aty.sohu.com/v*"]
     ]
   ],
   [
