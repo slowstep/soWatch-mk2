@@ -6,8 +6,8 @@ var FileIO = require("../lib/file-io.js");
 var Preference = require("../lib/pref-utils.js");
 var Synchronize = require("../lib/sync.js");
 
-function getRule(property, name, prefix) {
-  property.forEach(function (element, index, array) {
+function getRule(option, name, prefix) {
+  option.forEach(function (element, index, array) {
     var type = element[0], param = prefix + index;
 
     if (type == "player") {
@@ -44,7 +44,7 @@ exports.pendingOption = function () {
     var website = Storage.website[element], param = index * 10;
 
     website.value = Preference.getValue(website.prefs.name);
-    getRule(website.property, element, param);
+    getRule(website.option, element, param);
   });
 
   for (var i in Storage.player) {
