@@ -53,7 +53,7 @@ function createTopItem(document, popup) {
 }
 
 function createSubItem(document, popup) {
-  var subMenuList = {
+  var subMenuitem = {
     player: "_options.Player",
     filter: "_options.Filter",
     none: "_options.None"
@@ -64,10 +64,20 @@ function createSubItem(document, popup) {
     separator.setAttribute("id", "sowatchmk2-separator-" + i);
     popup.appendChild(separator);
 
-    for (var x in subMenuList) {
+    var menu = document.createElement("menu")
+    menu.setAttribute("id", "sowatchmk2-" + i);
+    menu.setAttribute("label", Locales(i + "_title"));
+    menu.setAttribute("class", "menu-iconic");
+    popup.appendChild(menu);
+
+    var subPopup = document.createElement("menupopup");
+    subPopup.setAttribute("id", "sowatchmk2-" + i + "-popup");
+    menu.appendChild(subPopup);
+
+    for (var x in subMenuitem) {
       var item = document.createElement("menuitem");
       item.setAttribute("id", "sowatchmk2-" + i + "-" + x);
-      item.setAttribute("label", Locales(i + subMenuList[x]));
+      item.setAttribute("label", Locales(i + subMenuitem[x]));
       item.setAttribute("type", "radio");
       if (!Storage.website[i].hasPlayer && x == "player") {
         item.setAttribute("disabled", "true");
@@ -75,7 +85,7 @@ function createSubItem(document, popup) {
       if (!Storage.website[i].hasFilter && x == "filter") {
         item.setAttribute("disabled", "true");
       }
-      popup.appendChild(item);
+      subPopup.appendChild(item);
     }
   }
 }
@@ -131,17 +141,6 @@ function menuPopup(event) {
         event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("checked", "true");
       } else if (website.value == 0) {
         event.target.querySelector("#sowatchmk2-" + i + "-none").setAttribute("checked", "true");
-      }
-      if (!website["onSite"].test(event.target.ownerDocument.getElementById("content").currentURI.spec) && !website.popup) {
-        event.target.querySelector("#sowatchmk2-separator-" + i).setAttribute("hidden", "true");
-        event.target.querySelector("#sowatchmk2-" + i + "-player").setAttribute("hidden", "true");
-        event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("hidden", "true");
-        event.target.querySelector("#sowatchmk2-" + i + "-none").setAttribute("hidden", "true");
-      } else {
-        event.target.querySelector("#sowatchmk2-separator-" + i).setAttribute("hidden", "false");
-        event.target.querySelector("#sowatchmk2-" + i + "-player").setAttribute("hidden", "false");
-        event.target.querySelector("#sowatchmk2-" + i + "-filter").setAttribute("hidden", "false");
-        event.target.querySelector("#sowatchmk2-" + i + "-none").setAttribute("hidden", "false");
       }
     }
   }
