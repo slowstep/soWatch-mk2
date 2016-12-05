@@ -66,7 +66,7 @@ var HttpRequest = {
       if (!rule.enabled) continue;
 
       if (rule.pattern.test(httpChannel.URI.spec)) {
-        if (rule.website == "iqiyi") {  // issue #7 细节补丁
+        if (rule.website == "iqiyi") { // issue #7 细节补丁
           statCounter ++;
           if (statCounter != 2) {
             getFilter(rule, httpChannel);
@@ -81,15 +81,15 @@ var HttpRequest = {
     var offline = Storage.option["offline"].value;
 
     for (var i in Storage.player) {
-      var rule = Storage.player[i], website = Storage.website[rule.website];
+      var rule = Storage.player[i], site = Storage.website[rule.website];
 
-      if (website.onSite.test(httpChannel.URI.host)) {
-        if (i == "iqiyi") { // issues #7 前置补丁
+      if (site.onSite.test(httpChannel.URI.host)) {
+        if (rule.website == "iqiyi") { // issues #7 前置补丁
           statCounter = 0;
         }
-        website.popup = true;
+        site.popup = true;
       } else {
-        website.popup = false;
+        site.popup = false;
       }
 
       if (!rule.enabled) continue;
