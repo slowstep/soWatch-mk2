@@ -38,7 +38,7 @@ exports.website = [
       ["player", "iqiyi5.swf", false, "http://www.iqiyi.com/common/flashplayer/*/MainPlayer*.swf*"],
       ["player", "iqiyi5.swf", false, "http://www.iqiyi.com/common/flashplayer/*/*f98c2359.swf*"],
       ["player", "iqiyi_out.swf", false, "http://www.iqiyi.com/common/flashplayer/*/EnjoyPlayer*.swf*"],
-      ["filter", false, "http://*/videos/other/*/*/*/*.f4v*"],
+      ["filter", false, /http:\/\/(\d+\.){3}\d+\/videos\/other(\/[^\/]+){3}\/[^\.]+.f4v/i],
       ["filter", false, "http://data.video.qiyi.com/videos/other/*/*/*/*.hml*"]
     ]
   ],
@@ -52,8 +52,9 @@ exports.website = [
       ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", true, "http://www.le.com/cmsdata/playerapi/pccs_PlayerSDK*.xml*"],
       ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", true, "http://www.le.com/cmsdata/playerapi/pccs_LiveSDK*.xml*"],
       ["player", "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml", true, "http://www.le.com/cmsdata/playerapi/pccs_main*.xml"],
-      ["filter", false, "http://*/*/*/*/letv-gug/*/ver_*-avc-*-aac-*.mp4*"],
-      ["filter", false, "http://*.letvimg.com/lc*_gugwl/*/*/*/*/*", "http://*.letvimg.com/lc*_diany/*/*/*/*/*"]
+      ["filter", false, /http:\/\/(\d+\.){3}(\d+\/){4}letv-gug\/[^\/]+\/ver_.+avc.+aac.+\.mp4/i],
+      ["filter", false, "http://i*.letvimg.com/lc0*_gugwl/*/*/*/*/*"],
+      ["filter", false, "http://i*.letvimg.com/lc0*_diany/*/*/*/*/*"]
     ]
   ],
   [
