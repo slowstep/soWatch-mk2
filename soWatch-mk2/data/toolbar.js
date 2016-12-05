@@ -9,6 +9,11 @@ var {Cu} = require("chrome");
 var {CustomizableUI} = Cu.import("resource:///modules/CustomizableUI.jsm", {});
 var iconShown = false;
 var cssFile = Services.io.newURI(require("sdk/self").data.url("toolbar.css"), null, null);
+var MenuItem = {
+  player: "_options.Player",
+  filter: "_options.Filter",
+  none: "_options.None"
+};
 
 function createButton(document) {
   var button = document.createElement("toolbarbutton");
@@ -24,7 +29,7 @@ function createButton(document) {
   button.appendChild(popup);
 
   createTopItem(document, popup);
-  createSubItem(document, popup);
+  createSubMenu(document, popup);
 
   return button;
 }
@@ -52,13 +57,7 @@ function createTopItem(document, popup) {
   });
 }
 
-function createSubItem(document, popup) {
-  var subMenuitem = {
-    player: "_options.Player",
-    filter: "_options.Filter",
-    none: "_options.None"
-  };
-
+function createSubMenu(document, popup) {
   for (var i in Storage.website) {
     var separator = document.createElement("menuseparator");
     separator.setAttribute("id", "sowatchmk2-separator-" + i);
@@ -70,23 +69,33 @@ function createSubItem(document, popup) {
     menu.setAttribute("class", "menu-iconic");
     popup.appendChild(menu);
 
-    var subPopup = document.createElement("menupopup");
-    subPopup.setAttribute("id", "sowatchmk2-" + i + "-popup");
-    menu.appendChild(subPopup);
+    var param = {
+      name: i,
+      player: Storage.website[i].hasPlayer,
+      filter: Storage.website[i].hasFilter
+    };
 
-    for (var x in subMenuitem) {
-      var item = document.createElement("menuitem");
-      item.setAttribute("id", "sowatchmk2-" + i + "-" + x);
-      item.setAttribute("label", Locales(i + subMenuitem[x]));
-      item.setAttribute("type", "radio");
-      if (!Storage.website[i].hasPlayer && x == "player") {
-        item.setAttribute("disabled", "true");
-      }
-      if (!Storage.website[i].hasFilter && x == "filter") {
-        item.setAttribute("disabled", "true");
-      }
-      subPopup.appendChild(item);
+    createSubItem(document, menu, param);
+  }
+}
+
+function createSubItem(document, menu, param) {
+  var popup = document.createElement("menupopup");
+  popup.setAttribute("id", "sowatchmk2-" + param.name + "-popup");
+  menu.appendChild(popup);
+
+  for (var i in MenuItem) {
+    var item = document.createElement("menuitem");
+    item.setAttribute("id", "sowatchmk2-" + param.name + "-" + i);
+    item.setAttribute("label", Locales(param.name + MenuItem[i]));
+    item.setAttribute("type", "radio");
+    if (!param.player && i == "player") {
+      item.setAttribute("disabled", "true");
     }
+    if (!param.filter && i == "filter") {
+      item.setAttribute("disabled", "true");
+    }
+    popup.appendChild(item);
   }
 }
 
