@@ -7,25 +7,31 @@ var Preference = require("../lib/pref-utils.js");
 var Synchronize = require("../lib/sync.js");
 
 function getRule(option, name, prefix) {
+  var queue = new Array();
+	
   option.forEach(function (element, index, array) {
     var type = element[0], param = prefix + index;
 
     if (type == "player") {
-      var player = element[1], remote = element[2], string = element[3];
+      var player = element[1], remote = element[2], string = element[3],
+      offline = Storage.file.path + player, online = Storage.file.link + player, path = FileIO.toPath(offline);
 
       if (remote) {
         Storage.player[param] = {
           website: name,
           offline: player,
+          online: player,
           pattern: Pattern.encode(string)
         };
       } else {
         Storage.player[param] = {
           website: name,
-          offline: Storage.file.path + player,
-          online: Storage.file.link + player,
+          offline: offline,
+          online: online,
           pattern: Pattern.encode(string)
         };
+
+        queue.push([online, path]);
       }
     } else if (type == "filter") {
       var filter = element[1], string = element[2];
@@ -35,6 +41,18 @@ function getRule(option, name, prefix) {
         secured: filter,
         pattern: Pattern.encode(string)
       };
+    }
+  });
+  
+  downloadQueue(queue);
+}
+
+function downloadQueue(queue) {
+  var test = new Object();
+  queue.forEach(function (element, index, array) {
+    if(!test[element]) {
+      test[element] = 1;
+      Storage.queue.push(element);
     }
   });
 }
@@ -85,13 +103,10 @@ exports.download = function (state) {
   var when = parseInt(Date.now() / 1000);
   if (state && Storage.option["update"].value > when) return;
 
-  for (var i in Storage.player) {
-    if ("online" in Storage.player[i]) {
-      var link = Storage.player[i]["online"];
-      var file = FileIO.toPath(Storage.player[i]["offline"]);
-      Synchronize.fetch(link, file);
-    }
-  }
+  Storage.queue.forEach(function (element, index, array) {
+    var link = element[0], file = element[1];
+    Synchronize.fetch(link, file);
+  });
 
   Preference.setValue(Storage.option["update"].prefs.name, when + Storage.option["period"].value * 86400);
 };
