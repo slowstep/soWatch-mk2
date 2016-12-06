@@ -8,7 +8,7 @@ var Synchronize = require("../lib/sync.js");
 
 function getRule(option, name, prefix) {
   var queue = new Array();
-	
+
   option.forEach(function (element, index, array) {
     var type = element[0], param = prefix + index;
 
@@ -38,7 +38,7 @@ function getRule(option, name, prefix) {
       };
     }
   });
-  
+
   downloadQueue(queue);
 }
 
