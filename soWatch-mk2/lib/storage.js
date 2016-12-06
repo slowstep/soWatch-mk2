@@ -7,3 +7,4 @@ exports.website = new Object();
 exports.player = new Object();
 exports.filter = new Object();
 exports.file = new Object();
+exports.queue = new Array();
