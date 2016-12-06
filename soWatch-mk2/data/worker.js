@@ -100,7 +100,7 @@ exports.download = function (state) {
   var when = parseInt(Date.now() / 1000);
   if (state && Storage.option["update"].value > when) return;
 
-  Storage.queue.forEach(function (element, index, array) {
+  Storage.file.queue.forEach(function (element, index, array) {
     var link = element[0], file = element[1];
     Synchronize.fetch(link, file);
   });
