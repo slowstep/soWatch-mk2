@@ -7,13 +7,10 @@ var Worker = require("./worker.js");
 var Locales = require("sdk/l10n").get;
 var {Cu} = require("chrome");
 var {CustomizableUI} = Cu.import("resource:///modules/CustomizableUI.jsm", {});
+
 var iconShown = false;
 var cssFile = Services.io.newURI(require("sdk/self").data.url("toolbar.css"), null, null);
-var MenuItem = {
-  player: "_options.Player",
-  filter: "_options.Filter",
-  none: "_options.None"
-};
+var MenuItem = { player: "_options.Player", filter: "_options.Filter", none: "_options.None" };
 
 function createButton(document) {
   var button = document.createElement("toolbarbutton");
@@ -69,11 +66,7 @@ function createSubMenu(document, popup) {
     menu.setAttribute("class", "menu-iconic");
     popup.appendChild(menu);
 
-    var param = {
-      name: i,
-      player: Storage.website[i].hasPlayer,
-      filter: Storage.website[i].hasFilter
-    };
+    var param = { name: i, player: Storage.website[i].hasPlayer, filter: Storage.website[i].hasFilter };
 
     createSubItem(document, menu, param);
   }
