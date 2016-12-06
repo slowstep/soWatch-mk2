@@ -25,36 +25,22 @@ function createButton(document) {
   popup.addEventListener("popupshowing", menuPopup, false);
   button.appendChild(popup);
 
-  createTopItem(document, popup);
-  createSubMenu(document, popup);
+  createPopupMenu(document, popup);
 
   return button;
 }
 
-function createTopItem(document, popup) {
+function createPopupMenu(document, popup) {
   Storage.menuitem.forEach(function (element, index, array) {
-    element.forEach(function (_element, _index, _array) {
-      var name = _element[0], type = _element[1];
-      var item = document.createElement("menuitem");
-      item.setAttribute("id", "sowatchmk2-" + name);
-      item.setAttribute("class", "menuitem-iconic");
-      if (type == "boolean") {
-        item.setAttribute("label", Locales(name + "_title"));
-        item.setAttribute("type", "checkbox");
-      } else if (type == "command") {
-        item.setAttribute("label", Locales(name + "_label"));
-      }
-      popup.appendChild(item);
-    });
+    createTopItem(document, popup, element);
+
     if (index < array.length - 1) {
       var separator = document.createElement("menuseparator");
       separator.setAttribute("id", "sowatchmk2-separator-" + index);
       popup.appendChild(separator);
     }
   });
-}
 
-function createSubMenu(document, popup) {
   for (var i in Storage.website) {
     var separator = document.createElement("menuseparator");
     separator.setAttribute("id", "sowatchmk2-separator-" + i);
@@ -70,6 +56,22 @@ function createSubMenu(document, popup) {
 
     createSubItem(document, menu, param);
   }
+}
+
+function createTopItem(document, popup, param) {
+  param.forEach(function (element, index, array) {
+    var name = element[0], type = element[1];
+    var item = document.createElement("menuitem");
+    item.setAttribute("id", "sowatchmk2-" + name);
+    item.setAttribute("class", "menuitem-iconic");
+    if (type == "boolean") {
+      item.setAttribute("label", Locales(name + "_title"));
+      item.setAttribute("type", "checkbox");
+    } else if (type == "command") {
+      item.setAttribute("label", Locales(name + "_label"));
+    }
+    popup.appendChild(item);
+  });	
 }
 
 function createSubItem(document, menu, param) {
