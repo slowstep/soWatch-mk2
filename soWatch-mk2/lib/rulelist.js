@@ -71,7 +71,7 @@ exports.website = [
     0,
     "pptv.com",
     [
-      ["player", "player4player2.swf", true, "http://player.pplive.cn/ikan/*/player4player2.swf*"],
+      ["player", "player4player2.swf", false, "http://player.pplive.cn/ikan/*/player4player2.swf*"],
       ["filter", false, "http://de.as.pptv.com/ikandelivery/vast/*draft/*"]
     ]
   ]
