@@ -13,26 +13,21 @@ function getRule(option, name, prefix) {
     var type = element[0], param = prefix + index;
 
     if (type == "player") {
-      var player = element[1], remote = element[2], string = element[3],
-      offline = Storage.file.path + player, online = Storage.file.link + player, path = FileIO.toPath(offline);
+      var player = element[1], remote = element[2], string = element[3];
 
       if (remote) {
-        Storage.player[param] = {
-          website: name,
-          offline: player,
-          online: player,
-          pattern: Pattern.encode(string)
-        };
+        var offline, online = offline = player;
       } else {
-        Storage.player[param] = {
-          website: name,
-          offline: offline,
-          online: online,
-          pattern: Pattern.encode(string)
-        };
-
+        var offline = Storage.file.path + player, online = Storage.file.link + player, path = FileIO.toPath(offline);
         queue.push([online, path]);
       }
+
+      Storage.player[param] = {
+        website: name,
+        offline: offline,
+        online: online,
+        pattern: Pattern.encode(string)
+      };
     } else if (type == "filter") {
       var filter = element[1], string = element[2];
 
