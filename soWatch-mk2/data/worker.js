@@ -47,12 +47,14 @@ function downloadQueue(queue) {
   queue.forEach(function (element, index, array) {
     if(!test[element]) {
       test[element] = 1;
-      Storage.queue.push(element);
+      Storage.file.queue.push(element);
     }
   });
 }
 
 exports.pendingOption = function () {
+  Storage.file.queue = new Array();
+
   Object.keys(Storage.website).forEach(function (element, index, array) {
     var website = Storage.website[element], param = index * 10;
 
