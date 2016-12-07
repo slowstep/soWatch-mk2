@@ -18,7 +18,7 @@ function menuAndButton(name, type, order) {
 }
 
 function readList() {
-  Storage.option.config = new Array(), Storage.option.command = new Array(), Storage.option.menuitem = new Array();
+  Storage.option.config = new Object(), Storage.option.command = new Array(), Storage.option.menuitem = new Array();
 
   Rulelist.option.forEach(function (element, index, array) {
     var name = element[0], value = element[1], ignore = element[2], order = element[3];
