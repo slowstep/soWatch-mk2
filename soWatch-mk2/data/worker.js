@@ -87,9 +87,9 @@ exports.pendingOption = function () {
   }
 };
 exports.restore = function () {
-  for (var i in Storage.option) {
-    if (Storage.option[i].ignore) continue;
-    Preference.resetValue(Storage.option[i].prefs);
+  for (var i in Storage.option.config) {
+    if (Storage.option.config[i].ignore) continue;
+    Preference.resetValue(Storage.option.config[i].prefs);
   }
 
   for (var x in Storage.website) {
@@ -98,12 +98,12 @@ exports.restore = function () {
 };
 exports.download = function (state) {
   var when = parseInt(Date.now() / 1000);
-  if (state && Storage.option["update"].value > when) return;
+  if (state && Storage.option.config["update"].value > when) return;
 
   Storage.file.queue.forEach(function (element, index, array) {
     var link = element[0], file = element[1];
     Synchronize.fetch(link, file);
   });
 
-  Preference.setValue(Storage.option["update"].prefs.name, when + Storage.option["period"].value * 86400);
+  Preference.setValue(Storage.option.config["update"].prefs.name, when + Storage.option.config["period"].value * 86400);
 };
