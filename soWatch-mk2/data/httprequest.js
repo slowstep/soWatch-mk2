@@ -78,7 +78,7 @@ var HttpRequest = {
     }
   },
   player: function (subject, httpChannel) {
-    var offline = Storage.option["offline"].value;
+    var offline = Storage.option.prefs["offline"].value;
 
     for (var i in Storage.player) {
       var rule = Storage.player[i], site = Storage.website[rule.website];
