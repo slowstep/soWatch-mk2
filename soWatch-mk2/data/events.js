@@ -9,19 +9,21 @@ var Worker = require("./worker.js");
 var Toolbar = require("./toolbar.js");
 
 function menuAndButton(name, type, order) {
-  Storage.command.push([name, type]);
-  if (Storage.menuitem[order]) {
-    Storage.menuitem[order].push([name, type]);
+  Storage.option.command.push([name, type]);
+  if (Storage.option.menuitem[order]) {
+    Storage.option.menuitem[order].push([name, type]);
   } else {
-    Storage.menuitem[order] = [[name, type]];
+    Storage.option.menuitem[order] = [[name, type]];
   }
 }
 
 function readList() {
+  Storage.option.prefs = new Array(), Storage.option.command = new Array(), Storage.option.menuitem = new Array();
+
   Rulelist.option.forEach(function (element, index, array) {
     var name = element[0], value = element[1], ignore = element[2], order = element[3];
     if (value != "command") {
-      Storage.option[name] = {
+      Storage.option.prefs[name] = {
         prefs: {name: name, value: value},
         ignore: ignore
       };
@@ -66,18 +68,18 @@ function handleWrapper() {
 }
 
 function readOption() {
-  for (var i in Storage.option) {
-    Storage.option[i].value = Preference.getValue(Storage.option[i].prefs.name);
+  for (var i in Storage.option.prefs) {
+    Storage.option.prefs[i].value = Preference.getValue(Storage.option.prefs[i].prefs.name);
   }
 
-  if (Storage.option["server"].value) {
-    Storage.file.link = Storage.option["server"].value;
+  if (Storage.option.prefs["server"].value) {
+    Storage.file.link = Storage.option.prefs["server"].value;
   } else {
     Storage.file.link = FileIO.server;
   }
 
-  if (Storage.option["folder"].value) {
-    Storage.file.path = FileIO.toURI(Storage.option["folder"].value);
+  if (Storage.option.prefs["folder"].value) {
+    Storage.file.path = FileIO.toURI(Storage.option.prefs["folder"].value);
   } else {
     Storage.file.path = FileIO.toURI(FileIO.folder);
   }
@@ -85,7 +87,7 @@ function readOption() {
   Worker.pendingOption();
   handleWrapper();
 
-  if (Storage.option["button"].value) {
+  if (Storage.option.prefs["button"].value) {
     Toolbar.create();
   } else {
     Toolbar.remove();
@@ -98,7 +100,7 @@ exports.startup = function () {
   readList();
   readOption();
   Preference.addListener("", readOption);
-  Storage.command.forEach(function (element, index, array) {
+  Storage.option.command.forEach(function (element, index, array) {
     var name = element[0], type = element[1];
     if (type == "command") {
       Preference.addListener(name, Worker[name]);
@@ -108,7 +110,7 @@ exports.startup = function () {
 exports.shutdown = function () {
   Toolbar.remove();
   Preference.removeListener("", readOption);
-  Storage.command.forEach(function (element, index, array) {
+  Storage.option.command.forEach(function (element, index, array) {
     var name = element[0], type = element[1];
     if (type == "command") {
       Preference.removeListener(name, Worker[name]);
