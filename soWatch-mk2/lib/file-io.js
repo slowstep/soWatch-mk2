@@ -3,10 +3,7 @@
 var {Cu} = require("chrome");
 var {OS} = Cu.import("resource://gre/modules/osfile.jsm", {});
 
-var folder = OS.Path.join(OS.Constants.Path.profileDir, "soWatch"), path = OS.Path.toFileURI(folder) + "/";
-
-exports.folder = folder;
-exports.path = path;
+exports.folder = OS.Path.join(OS.Constants.Path.profileDir, "soWatch");
 exports.server = "https://bitbucket.org/kafan15536900/haoutil/raw/master/player/testmod/";
 exports.toURI = function (path) {
   return OS.Path.toFileURI(path) + "/";
