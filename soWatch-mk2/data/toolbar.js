@@ -31,7 +31,7 @@ function createButton(document) {
 }
 
 function createPopupMenu(document, popup) {
-  Storage.menuitem.forEach(function (element, index, array) {
+  Storage.option.menuitem.forEach(function (element, index, array) {
     createTopItem(document, popup, element);
 
     if (index < array.length - 1) {
@@ -95,16 +95,16 @@ function createSubItem(document, menu, param) {
 }
 
 function menuClick(event) {
-  Storage.command.forEach(function (element, index, array) {
+  Storage.option.command.forEach(function (element, index, array) {
     var name = element[0], type = element[1];
     if (event.target.id == "sowatchmk2-" + name) {
       if (type == "command") {
         Worker[name]();
       } else if (type == "boolean") {
-        if (Storage.option[name].value) {
-          Preference.setValue(Storage.option[name].prefs.name, false);
+        if (Storage.option.prefs[name].value) {
+          Preference.setValue(Storage.option.prefs[name].prefs.name, false);
         } else {
-          Preference.setValue(Storage.option[name].prefs.name, true);
+          Preference.setValue(Storage.option.prefs[name].prefs.name, true);
         }
       }
     }
@@ -126,10 +126,10 @@ function menuClick(event) {
 
 function menuPopup(event) {
   if (event.target.id == "sowatchmk2-popup") {
-    Storage.command.forEach(function (element, index, array) {
+    Storage.option.command.forEach(function (element, index, array) {
       var name = element[0], type = element[1];
       if (type == "boolean") {
-        if (Storage.option[name].value) {
+        if (Storage.option.prefs[name].value) {
           event.target.querySelector("#sowatchmk2-" + name).setAttribute("checked", "true");
         } else {
           event.target.querySelector("#sowatchmk2-" + name).setAttribute("checked", "false");
