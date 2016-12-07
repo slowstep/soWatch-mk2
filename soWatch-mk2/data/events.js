@@ -18,12 +18,12 @@ function menuAndButton(name, type, order) {
 }
 
 function readList() {
-  Storage.option.prefs = new Array(), Storage.option.command = new Array(), Storage.option.menuitem = new Array();
+  Storage.option.config = new Array(), Storage.option.command = new Array(), Storage.option.menuitem = new Array();
 
   Rulelist.option.forEach(function (element, index, array) {
     var name = element[0], value = element[1], ignore = element[2], order = element[3];
     if (value != "command") {
-      Storage.option.prefs[name] = {
+      Storage.option.config[name] = {
         prefs: {name: name, value: value},
         ignore: ignore
       };
@@ -68,18 +68,18 @@ function handleWrapper() {
 }
 
 function readOption() {
-  for (var i in Storage.option.prefs) {
-    Storage.option.prefs[i].value = Preference.getValue(Storage.option.prefs[i].prefs.name);
+  for (var i in Storage.option.config) {
+    Storage.option.config[i].value = Preference.getValue(Storage.option.config[i].prefs.name);
   }
 
-  if (Storage.option.prefs["server"].value) {
-    Storage.file.link = Storage.option.prefs["server"].value;
+  if (Storage.option.config["server"].value) {
+    Storage.file.link = Storage.option.config["server"].value;
   } else {
     Storage.file.link = FileIO.server;
   }
 
-  if (Storage.option.prefs["folder"].value) {
-    Storage.file.path = FileIO.toURI(Storage.option.prefs["folder"].value);
+  if (Storage.option.config["folder"].value) {
+    Storage.file.path = FileIO.toURI(Storage.option.config["folder"].value);
   } else {
     Storage.file.path = FileIO.toURI(FileIO.folder);
   }
@@ -87,7 +87,7 @@ function readOption() {
   Worker.pendingOption();
   handleWrapper();
 
-  if (Storage.option.prefs["button"].value) {
+  if (Storage.option.config["button"].value) {
     Toolbar.create();
   } else {
     Toolbar.remove();
