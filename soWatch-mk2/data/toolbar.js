@@ -101,10 +101,10 @@ function menuClick(event) {
       if (type == "command") {
         Worker[name]();
       } else if (type == "boolean") {
-        if (Storage.option.prefs[name].value) {
-          Preference.setValue(Storage.option.prefs[name].prefs.name, false);
+        if (Storage.option.config[name].value) {
+          Preference.setValue(Storage.option.config[name].prefs.name, false);
         } else {
-          Preference.setValue(Storage.option.prefs[name].prefs.name, true);
+          Preference.setValue(Storage.option.config[name].prefs.name, true);
         }
       }
     }
@@ -129,7 +129,7 @@ function menuPopup(event) {
     Storage.option.command.forEach(function (element, index, array) {
       var name = element[0], type = element[1];
       if (type == "boolean") {
-        if (Storage.option.prefs[name].value) {
+        if (Storage.option.config[name].value) {
           event.target.querySelector("#sowatchmk2-" + name).setAttribute("checked", "true");
         } else {
           event.target.querySelector("#sowatchmk2-" + name).setAttribute("checked", "false");
