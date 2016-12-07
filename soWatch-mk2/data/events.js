@@ -70,17 +70,9 @@ function readOption() {
     Storage.option.config[i].value = Preference.getValue(Storage.option.config[i].prefs.name);
   }
 
-  if (Storage.option.config["server"].value) {
-    Storage.file.link = Storage.option.config["server"].value;
-  } else {
-    Storage.file.link = FileIO.server;
-  }
-
-  if (Storage.option.config["folder"].value) {
-    Storage.file.path = FileIO.toURI(Storage.option.config["folder"].value);
-  } else {
-    Storage.file.path = FileIO.path;
-  }
+  var folder = Storage.option.config["folder"].value || FileIO.folder;
+  Storage.file.link = Storage.option.config["server"].value || FileIO.server;
+  Storage.file.path = FileIO.toURI(folder);
 
   Worker.pendingOption();
   handleWrapper();
