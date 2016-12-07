@@ -4,7 +4,7 @@ exports.option = [
   ["restore", null, "command", false, 0],
   ["button", true, "boolean", false, null],
   ["update", 0, "integer", true, null],
-  ["period", 8, "boolean", false, null],
+  ["period", 8, "integer", false, null],
   ["download", null, "command", false, 2],
   ["offline", true, "boolean", false, 1],
   ["server", "", "string", true, null],
