@@ -21,8 +21,8 @@ function readList() {
   Storage.option.config = new Object(), Storage.option.command = new Array(), Storage.option.menuitem = new Array();
 
   Rulelist.option.forEach(function (element, index, array) {
-    var name = element[0], value = element[1], ignore = element[2], order = element[3];
-    if (value != "command") {
+    var name = element[0], value = element[1], type = element[2], ignore = element[3], order = element[4];
+    if (type != "command") {
       Storage.option.config[name] = {
         prefs: {name: name, value: value},
         ignore: ignore
@@ -30,10 +30,8 @@ function readList() {
     }
 
     if (typeof order == "number") {
-      if (value == "command") {
-        menuAndButton(name, "command", order);
-      } else if (typeof value == "boolean") {
-        menuAndButton(name, "boolean", order);
+      if (type == "command" || type == "boolean") {
+        menuAndButton(name, type, order);
       }
     }
   });
@@ -81,7 +79,7 @@ function readOption() {
   if (Storage.option.config["folder"].value) {
     Storage.file.path = FileIO.toURI(Storage.option.config["folder"].value);
   } else {
-    Storage.file.path = FileIO.toURI(FileIO.folder);
+    Storage.file.path = FileIO.path;
   }
 
   Worker.pendingOption();
