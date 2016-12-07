@@ -1,14 +1,14 @@
 "use strict";
 
 exports.option = [
-  ["restore", "command", false, 0],
-  ["button", true, false, null],
-  ["update", 0, true, null],
-  ["period", 8, false, null],
-  ["download", "command", false, 2],
-  ["offline", true, false, 1],
-  ["server", "", true, null],
-  ["folder", "", true, null]
+  ["restore", null, "command", false, 0],
+  ["button", true, "boolean", false, null],
+  ["update", 0, "integer", true, null],
+  ["period", 8, "boolean", false, null],
+  ["download", null, "command", false, 2],
+  ["offline", true, "boolean", false, 1],
+  ["server", "", "string", true, null],
+  ["folder", "", "string", true, null]
 ];
 exports.website = [
   [
