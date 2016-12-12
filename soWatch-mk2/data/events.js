@@ -70,9 +70,9 @@ function readOption() {
     Storage.option.config[i].value = Preference.getValue(Storage.option.config[i].prefs.name);
   }
 
-  var folder = Storage.option.config["folder"].value || FileIO.folder;
+  Storage.file.folder = Storage.option.config["folder"].value || FileIO.folder + "\\";
   Storage.file.link = Storage.option.config["server"].value || FileIO.server;
-  Storage.file.path = FileIO.toURI(folder);
+  Storage.file.path = FileIO.toURI(Storage.file.folder) + "/";
 
   Worker.pendingOption();
   handleWrapper();
@@ -82,7 +82,8 @@ function readOption() {
   } else {
     Toolbar.remove();
   }
-
+var Window = require("sdk/window/utils").getMostRecentBrowserWindow("navigator:browser");
+Window.console.log(Storage)
   Worker["download"]("auto");
 };
 

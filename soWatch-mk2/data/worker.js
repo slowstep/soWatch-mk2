@@ -2,7 +2,6 @@
 
 var Storage = require("../lib/storage.js");
 var Pattern = require("../lib/makepattern.js");
-var FileIO = require("../lib/file-io.js");
 var Preference = require("../lib/pref-utils.js");
 var Synchronize = require("../lib/sync.js");
 
@@ -18,7 +17,7 @@ function getRule(option, name, prefix) {
       if (remote) {
         var offline, online = offline = player;
       } else {
-        var offline = Storage.file.path + player, online = Storage.file.link + player, path = FileIO.toPath(offline);
+        var offline = Storage.file.path + player, online = Storage.file.link + player, path = Storage.file.folder + player;
         queue.push([online, path]);
       }
 

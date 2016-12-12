@@ -10,5 +10,5 @@ exports.encode = function (data) {
     return makeRegExp(data);
   } else {
     return data;
-  }	
+  }
 };

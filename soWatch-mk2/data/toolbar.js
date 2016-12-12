@@ -71,7 +71,7 @@ function createTopItem(document, popup, param) {
       item.setAttribute("label", Locales(name + "_label"));
     }
     popup.appendChild(item);
-  });	
+  });
 }
 
 function createSubItem(document, menu, param) {
