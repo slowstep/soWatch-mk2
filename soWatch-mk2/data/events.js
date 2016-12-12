@@ -82,8 +82,7 @@ function readOption() {
   } else {
     Toolbar.remove();
   }
-var Window = require("sdk/window/utils").getMostRecentBrowserWindow("navigator:browser");
-Window.console.log(Storage)
+
   Worker["download"]("auto");
 };
 
