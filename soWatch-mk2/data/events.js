@@ -71,7 +71,7 @@ function readOption() {
   }
 
   Storage.file.folder = Storage.option.config["folder"].value || FileIO.folder + "\\";
-  Storage.file.link = Storage.option.config["server"].value || FileIO.server;
+  Storage.file.server = Storage.option.config["server"].value || FileIO.server;
   Storage.file.path = FileIO.toURI(Storage.file.folder) + "/";
 
   Worker.pendingOption();
