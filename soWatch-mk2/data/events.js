@@ -86,7 +86,7 @@ function readOption() {
     Toolbar.remove();
   }
 
-  Worker["download"](0);
+  Worker["download"]("a");
 };
 
 exports.startup = function () {
