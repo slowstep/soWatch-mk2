@@ -17,7 +17,7 @@ function getRule(option, name, prefix) {
       if (remote) {
         var offline, online = offline = player;
       } else {
-        var offline = Storage.file.path + player, online = Storage.file.server + player, path = Storage.file.folder + player;
+        var offline = Storage.file.path + player, online = Storage.file.link + player, path = Storage.file.folder + player;
         queue.push([online, path]);
       }
 

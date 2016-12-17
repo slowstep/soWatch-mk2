@@ -6,6 +6,7 @@ var FileIO = require("../lib/file-io.js");
 var Pattern = require("../lib/makepattern.js");
 var Preference = require("../lib/pref-utils.js");
 var Worker = require("./worker.js");
+var Configuration = require("./config.js");
 var Toolbar = require("./toolbar.js");
 
 function menuAndButton(name, type, order) {
@@ -46,23 +47,21 @@ function readList() {
   });
 }
 
-function handleWrapper() {
-  Rulelist.wrapper.forEach(function (element, index, array) {
-    var entry = element[0], major = element[1], minor = element[2];
-    minor.forEach(function (element, index, array) {
-      major = Storage.website[major], minor = Storage.website[element];
-      if (entry == "player") {
-        if ((major.value == 1 && minor.value != 1) || (major.value != 1 && minor.value == 1)) {
-          Preference.setValue(minor.prefs.name, major.value);
-        }
+function handleWrapper(entry, major, minor) {
+  minor.forEach(function (element, index, array) {
+    var site = Storage.website[element];
+    if (entry == "player") {
+      if ((major.value == 1 && site.value != 1) || (major.value != 1 && site.value == 1)) {
+        Preference.setValue(site.prefs.name, major.value);
       }
-      if (entry == "filter") {
-        if ((major.value == 2 && minor.value == 0) || (major.value == 0 && minor.value == 2)) {
-          Preference.setValue(minor.prefs.name, major.value);
-        }
+    }
+    if (entry == "filter") {
+      if ((major.value == 2 && site.value == 0) || (major.value == 0 && site.value == 2)) {
+        Preference.setValue(site.prefs.name, major.value);
       }
-    });
+    }
   });
+
 }
 
 function readOption() {
@@ -71,11 +70,15 @@ function readOption() {
   }
 
   Storage.file.folder = Storage.option.config["folder"].value || FileIO.folder + "\\";
-  Storage.file.server = Storage.option.config["server"].value || FileIO.server;
+  Storage.file.link = Storage.option.config["server"].value || FileIO.server;
   Storage.file.path = FileIO.toURI(Storage.file.folder) + "/";
 
+  Rulelist.wrapper.forEach(function (element, index, array) {
+    var entry = element[0], major = Storage.website[element[1]], minor = element[2];
+    handleWrapper(entry, major, minor);
+  });
+
   Worker.pendingOption();
-  handleWrapper();
 
   if (Storage.option.config["button"].value) {
     Toolbar.create();
@@ -83,27 +86,17 @@ function readOption() {
     Toolbar.remove();
   }
 
-  Worker["download"]("auto");
+  Worker["download"](0);
 };
 
 exports.startup = function () {
   readList();
   readOption();
   Preference.addListener("", readOption);
-  Storage.option.command.forEach(function (element, index, array) {
-    var name = element[0], type = element[1];
-    if (type == "command") {
-      Preference.addListener(name, Worker[name]);
-    }
-  });
+  Configuration.addListener();
 };
 exports.shutdown = function () {
   Toolbar.remove();
   Preference.removeListener("", readOption);
-  Storage.option.command.forEach(function (element, index, array) {
-    var name = element[0], type = element[1];
-    if (type == "command") {
-      Preference.removeListener(name, Worker[name]);
-    }
-  });
+  Configuration.removeListener();
 };
