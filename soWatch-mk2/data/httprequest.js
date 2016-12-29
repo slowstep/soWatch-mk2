@@ -8,7 +8,7 @@ var statCounter = 0;
 var isFlash = /(\.swf|\.xml)/i;
 
 function getFilter(rule, httpChannel) {
-  if (rule["secured"]) {
+  if (rule["mode"] == 1) {
     httpChannel.suspend();
   } else {
     httpChannel.cancel(Cr.NS_BINDING_ABORTED);

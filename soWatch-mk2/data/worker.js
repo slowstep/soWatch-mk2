@@ -12,9 +12,9 @@ function getRule(option, name, prefix) {
     var type = element[0], param = prefix + index;
 
     if (type == "player") {
-      var player = element[1], remote = element[2], string = element[3];
+      var player = element[1], mode = element[2], string = element[3];
 
-      if (remote) {
+      if (mode == 1) {
         var offline, online = offline = player;
       } else {
         var offline = Storage.file.path + player, online = Storage.file.server + player, path = Storage.file.folder + player;
@@ -28,11 +28,11 @@ function getRule(option, name, prefix) {
         pattern: Pattern.encode(string)
       };
     } else if (type == "filter") {
-      var filter = element[1], string = element[2];
+      var mode = element[1], string = element[2];
 
       Storage.filter[param] = {
         website: name,
-        secured: filter,
+        mode: mode,
         pattern: Pattern.encode(string)
       };
     }
