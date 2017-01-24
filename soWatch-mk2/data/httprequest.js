@@ -66,7 +66,7 @@ var HttpRequest = {
       if (!rule.enabled) continue;
 
       if (rule.pattern.test(httpChannel.URI.spec)) {
-        if (rule.website == "iqiyi") { // issue #7 细节补丁
+        if (rule.website == "iqiyi") {
           statCounter ++;
           if (statCounter != 2) {
             getFilter(rule, httpChannel);
@@ -84,7 +84,7 @@ var HttpRequest = {
       var rule = Storage.player[i], site = Storage.website[rule.website];
 
       if (site.onSite.test(httpChannel.URI.host)) {
-        if (rule.website == "iqiyi") { // issues #7 前置补丁
+        if (rule.website == "iqiyi") {
           statCounter = 0;
         }
         site.popup = true;
