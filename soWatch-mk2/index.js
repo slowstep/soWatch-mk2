@@ -9,6 +9,8 @@ exports.main = function (options, callbacks) {
   HttpRequest.addListener();
   if (options.loadReason == "upgrade") {
     Setup.upgrade();
+  } else if (options.loadReason == "downgrade") {
+    Setup.downgrade();
   }
 };
 
